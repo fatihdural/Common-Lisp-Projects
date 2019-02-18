@@ -1,0 +1,235 @@
+(defun lexer(file) ; fonksiyon tanimi
+	(setq temp2 '()) ; gecici variable
+	(setq flag 0) ; bazi durumlarda gereksiz girmemesi için bir flag yapiyoruz.
+ 	(setq temp_list nil) ; dosyadan okunan tum karakterler bu listede tutulacak
+ 	(setq result '()) ; sonuc bu listede olacak
+(let ((in (open file :if-does-not-exist nil))) ; dosya sonuna kadar karakter karakter okunur.
+  (when in
+    (loop for line = (read-char in nil)
+         while line do (setq temp_list (push line temp_list)))
+    (close in))) ; dosya kapanir.
+	(setq temp_list (reverse temp_list)) 
+	(loop ; genel dongu.
+		(if (or (and (> (char-code (car temp_list)) 64) (< (char-code (car temp_list)) 91) )  (and (> (char-code (car temp_list)) 96) (< (char-code (car temp_list)) 123)))   
+			(progn ;karakterse bu donguye girer.
+			(setq control_ch nil)
+			(loop ;karakter oldugu surece devam eder.
+				(if (or (and (> (char-code (car temp_list)) 64) (< (char-code (car temp_list)) 91) )  (and (> (char-code (car temp_list)) 96) (< (char-code (car temp_list)) 123)))
+					(setq control_ch (push (car temp_list) control_ch))
+					(return result)
+				)
+				(setq temp_list (cdr temp_list)) 
+			)
+			(setq control_ch (reverse control_ch)) 
+			(if (equal '(#\d #\e #\f #\f #\u #\n) control_ch) ;eger keywordse taninir ve result a atilir.
+				(progn
+					(setq temp2 '()) ;string formatlama ve keyword adding.
+					(setq temp2 (push (format nil "~{~a~}" control_ch) temp2)) 
+					(setq temp2 (push "keyword" temp2))  
+					(setq result (cons temp2 result)) 
+					(setq flag 1)
+				)	
+			)
+			(if (equal '(#\e #\q #\u #\a #\l) control_ch)
+				(progn 
+					(setq temp2 '())
+					(setq temp2 (push (format nil "~{~a~}" control_ch) temp2)) 
+					(setq temp2 (push "keyword" temp2))  
+					(setq result (cons temp2 result)) 
+					(setq flag 1)
+				)	
+			)	
+			(if (equal '(#\i #\f) control_ch)
+				(progn 
+					(setq temp2 '())
+					(setq temp2 (push (format nil "~{~a~}" control_ch) temp2)) 
+					(setq temp2 (push "keyword" temp2))  
+					(setq result (cons temp2 result)) 
+					(setq flag 1)				)	
+			)	
+			(if (equal '(#\a #\n #\d) control_ch)
+				(progn 
+					(setq temp2 '())
+					(setq temp2 (push (format nil "~{~a~}" control_ch) temp2)) 
+					(setq temp2 (push "keyword" temp2))  
+					(setq result (cons temp2 result)) 
+					(setq flag 1)
+				)	
+			)	
+			(if (equal '(#\o #\r) control_ch)
+				(progn 
+					(setq temp2 '())
+					(setq temp2 (push (format nil "~{~a~}" control_ch) temp2)) 
+					(setq temp2 (push "keyword" temp2))  
+					(setq result (cons temp2 result)) 
+					(setq flag 1)
+				)	
+			)
+			(if (equal '(#\n #\o #\t) control_ch)
+				(progn 
+					(setq temp2 '())
+					(setq temp2 (push (format nil "~{~a~}" control_ch) temp2)) 
+					(setq temp2 (push "keyword" temp2))  
+					(setq result (cons temp2 result)) 
+					(setq flag 1)
+				)	
+			)		
+			(if (equal '(#\a #\p #\p #\e #\n #\d) control_ch)
+				(progn 
+					(setq temp2 '())
+					(setq temp2 (push (format nil "~{~a~}" control_ch) temp2)) 
+					(setq temp2 (push "keyword" temp2))  
+					(setq result (cons temp2 result)) 
+					(setq flag 1)
+				)	
+			)		
+			(if (equal '(#\c #\o #\n #\c #\a #\t) control_ch)
+				(progn 
+					(setq temp2 '())
+					(setq temp2 (push (format nil "~{~a~}" control_ch) temp2)) 
+					(setq temp2 (push "keyword" temp2))  
+					(setq result (cons temp2 result)) 
+					(setq flag 1)
+				)	
+			)	
+			(if (equal '(#\s #\e #\t) control_ch)
+				(progn 
+					(setq temp2 '())
+					(setq temp2 (push (format nil "~{~a~}" control_ch) temp2)) 
+					(setq temp2 (push "keyword" temp2))  
+					(setq result (cons temp2 result)) 
+					(setq flag 1)
+				)	
+			)		
+			(if (equal '(#\f #\o #\r) control_ch)
+				(progn 
+					(setq temp2 '())
+					(setq temp2 (push (format nil "~{~a~}" control_ch) temp2)) 
+					(setq temp2 (push "keyword" temp2))  
+					(setq result (cons temp2 result)) 
+					(setq flag 1)
+				)	
+			)
+			(if (equal '(#\w #\h #\i #\l #\e) control_ch)
+				(progn 
+					(setq temp2 '())
+					(setq temp2 (push (format nil "~{~a~}" control_ch) temp2)) 
+					(setq temp2 (push "keyword" temp2))  
+					(setq result (cons temp2 result)) 
+					(setq flag 1)
+				)	
+			)			
+			(if (equal '(#\e #\x #\i #\t) control_ch)
+				(progn 
+					(setq temp2 '())
+					(setq temp2 (push (format nil "~{~a~}" control_ch) temp2)) 
+					(setq temp2 (push "keyword" temp2))  
+					(setq result (cons temp2 result)) 
+					(setq flag 1)
+				)	
+			)
+			(if (equal '(#\t #\r #\u #\e) control_ch)
+				(progn 
+					(setq temp2 '())
+					(setq temp2 (push (format nil "~{~a~}" control_ch) temp2)) 
+					(setq temp2 (push "boolen" temp2))  
+					(setq result (cons temp2 result)) 
+					(setq flag 1)
+				)	
+			)		
+			(if (equal '(#\f #\a #\l #\s #\e) control_ch)
+				(progn 
+					(setq temp2 '())
+					(setq temp2 (push (format nil "~{~a~}" control_ch) temp2)) 
+					(setq temp2 (push "boolen" temp2))  
+					(setq result (cons temp2 result)) 
+					(setq flag 1)
+				)	
+			)					
+
+			(if (equal flag 0) ;flag 0 sa keyword degildir, identifierdir, result a yazilir.
+				(progn
+				(setq temp2 '())
+				(setq temp2 (push (format nil "~{~a~}" control_ch) temp2)) 
+				(setq temp2 (push "identifier" temp2))  
+				(setq result (cons temp2 result)) 
+				)
+				(setq flag 0)
+			)	
+			)
+		)
+		(if (and (> (char-code (car temp_list)) 39) (< (char-code (car temp_list)) 48) ) ;operator tanimi
+				(if (and (equal (char-code (car (cdr temp_list))) 42) (equal (char-code (car (cdr (cdr temp_list)))) 32))  
+					(progn
+						(setq temp2 '("**"))						; ** operatoru icin ozel condition.
+						(setq temp2 (push "operator" temp2))  
+						(setq result (cons temp2 result)) 
+						(setq temp_list (cdr (cdr temp_list)))  
+					)
+						(if (equal (char-code (car temp_list)) 45) ; - integerlar icin ozel condition.
+							(if (and (> (char-code (car (cdr temp_list) )) 47) (< (char-code (car (cdr temp_list)) ) 58) )
+								(progn
+									(setq control_ch nil)
+									(setq control_ch (push (car temp_list) control_ch))
+									(setq temp_list (cdr temp_list))
+									(loop
+										(if (and (> (char-code (car temp_list)) 47) (< (char-code (car temp_list)) 58) ) 
+											(setq control_ch (push (car temp_list) control_ch))
+											(return result)
+										)
+										(setq temp_list (cdr temp_list)) 
+									)
+									(setq control_ch (reverse control_ch))
+									(setq temp2 (push (format nil "~{~a~}" control_ch) temp2)) 
+									(setq temp2 (push "integer" temp2))  
+									(setq result (cons temp2 result))
+
+								)
+								(progn
+								(setq temp2 '())
+								(setq temp2 (push (string (car temp_list)) temp2)) 
+								(setq temp2 (push "operator" temp2))  
+								(setq result (cons temp2 result))
+							) 
+							)
+						(progn ; - veya ** olmayanlar icin condition.
+							(setq temp2 '())
+							(setq temp2 (push (string (car temp_list)) temp2)) 
+							(setq temp2 (push "operator" temp2))  
+							(setq result (cons temp2 result))
+						)
+						)
+						)
+		) 
+		(if (and (> (char-code (car temp_list)) 47) (< (char-code (car temp_list)) 58) ) ;integer tanimi
+			(if (and (> (char-code (car (cdr temp_list))) 47) (< (char-code (car (cdr temp_list))) 58) ) 
+				(progn					; tek basamak ve fazla basamakli integerler icin conditionlar.
+					(setq control_num nil)
+					(loop
+						(if (and (> (char-code (car temp_list)) 47) (< (char-code (car temp_list)) 58) ) 
+							(setq control_num (push (car temp_list) control_num))
+							(return result)
+						)
+						(setq temp_list (cdr temp_list)) 
+					)
+					(setq control_num (reverse control_num))
+					(setq temp2 '())
+					(setq temp2 (push (format nil "~{~a~}" control_num) temp2))
+					(setq temp2 (push "integer" temp2))  
+					(setq result (cons temp2 result)) 
+				)
+				(progn
+					(setq temp2 '())
+					(setq temp2 (push (string (car temp_list)) temp2)) 
+					(setq temp2 (push "integer" temp2))  
+					(setq result (cons temp2 result))
+				)
+			)
+		) 
+		(setq temp_list (cdr temp_list))
+		(when (equal (car temp_list) nil)  (return result) )
+	)
+	(setq result (reverse result)) ; ters olan sonucu reverse ile en son dondur.
+	; Fatih DURAL
+	; 151044041
+)
